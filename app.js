@@ -4,20 +4,25 @@ const path = require("path");
 const PORT = 3000;
 const app = express();
 
+// Define a root directory for file serving
+const pages = path.join(__dirname, "pages");
+
 // Routes
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "pages", "index.html"));
+  res.sendFile("index.html", { root: pages });
 });
-app.get("/contact-me", (req, res) =>
-  res.sendFile(path.join(__dirname, "pages", "contact-me.html"))
-);
-app.get("/about", (req, res) =>
-  res.sendFile(path.join(__dirname, "pages", "about.html"))
-);
+
+app.get("/contact-me", (req, res) => {
+  res.sendFile("contact-me.html", { root: pages });
+});
+
+app.get("/about", (req, res) => {
+  res.sendFile("about.html", { root: pages });
+});
 
 // 404 Catch-All Route
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "pages", "404.html"));
+  res.status(404).sendFile("404.html", { root: pages });
 });
 
 // Start the server
